@@ -4,8 +4,44 @@
   this.speed = speed;
   this.focus = focus;
   this.position = 0;
-}
-  var rabbit = new Animal("Rabbies",4,2);
-  var turtle = new Animal("Murtle",1,10);
+  this.distance = raceDist;
+  this.run = function() {
+    if(Math.random() * 10 < this.focus) {
+      this.position = this.position + this.speed;
+      if(this.position > raceDist){
+        this.position = raceDist;
+      }
+    return this.position;
+    }
+    else {
+      return this.position;
+    }
+  }
+  this.distDiff = function(distRemain,distCover) {
+    var difference = distRemain - distCover;
+    if(difference < 0) {
+      difference = 0;
+    }
+    return difference;
+    }
+  }
+  var raceDist = 10;
+  var rabbit = new Animal("Hare",4,2);
+  var turtle = new Animal("Tortoise",1,10);
 
+  while(true) {
+    rabbit.run();
+    alert("Hare has run " + rabbit.position + " feet. He has " + rabbit.distDiff(rabbit.distance,rabbit.position) + " feet to go!");
+    if(rabbit.distDiff(rabbit.distance,rabbit.position) === 0) {
+      alert("Hare has won! Looks like Tortoise was just too slow.");
+      break;
+    }
+    turtle.run();
+    alert("Tortoise has crawled " + turtle.position + " feet. He has " + turtle.distDiff(turtle.distance,turtle.position) + " feet to go!");
+    if(turtle.distDiff(turtle.distance,turtle.position) === 0) {
+      alert("Tortoise has won! Looks like Hare was just too lazy.");
+      break;
+    }
+  }
 </script>
+
