@@ -1,47 +1,56 @@
 <script>
   function Animal(name, speed, focus){
-  this.name = name;
-  this.speed = speed;
-  this.focus = focus;
-  this.position = 0;
-  this.distance = raceDist;
-  this.run = function() {
-    if(Math.random() * 10 < this.focus) {
-      this.position = this.position + this.speed;
-      if(this.position > raceDist){
-        this.position = raceDist;
-      }
-    return this.position;
-    }
-    else {
+    this.name = name;
+    this.speed = speed;
+    this.focus = focus;
+    this.position = 0;
+    this.run = function() {
+      if(Math.random() * 10 < this.focus) {
+        this.position = this.position + this.speed;
+        if(this.position > raceDist){
+          this.position = raceDist;
+        }
       return this.position;
+      }
+      else {
+        return this.position;
+      }
+    }
+    this.distDiff = function(raceDistance,totalDistanceCovered) {
+      var distanceDifference = raceDistance - totalDistanceCovered;
+      if(distanceDifference < 0) {
+        distanceDifference = 0;
+      }
+      return distanceDifference;
+    }
+    this.stringFeedback = function() {
+      alert(this.name + " has run " + this.position + " feet. He has " + this.distDiff(raceDist,this.position) + " feet to go!");
+    }
+    this.stringWin = function() {
+      alert(this.name + " has won!");
     }
   }
-  this.distDiff = function(distRemain,distCover) {
-    var difference = distRemain - distCover;
-    if(difference < 0) {
-      difference = 0;
-    }
-    return difference;
+
+  var playGame = function(player1,player2) {
+    while(true) {
+      player1.run();
+      player1.stringFeedback();
+      if(player1.distDiff(raceDist,player1.position) === 0) {
+        player1.stringWin();
+        break;
+      }
+      player2.run();
+      player2.stringFeedback();
+      if(player2.distDiff(raceDist,player2.position) === 0) {
+        player2.stringWin();
+        break;
+      }
     }
   }
+
   var raceDist = 10;
   var rabbit = new Animal("Hare",4,2);
   var turtle = new Animal("Tortoise",1,10);
-
-  while(true) {
-    rabbit.run();
-    alert("Hare has run " + rabbit.position + " feet. He has " + rabbit.distDiff(rabbit.distance,rabbit.position) + " feet to go!");
-    if(rabbit.distDiff(rabbit.distance,rabbit.position) === 0) {
-      alert("Hare has won! Looks like Tortoise was just too slow.");
-      break;
-    }
-    turtle.run();
-    alert("Tortoise has crawled " + turtle.position + " feet. He has " + turtle.distDiff(turtle.distance,turtle.position) + " feet to go!");
-    if(turtle.distDiff(turtle.distance,turtle.position) === 0) {
-      alert("Tortoise has won! Looks like Hare was just too lazy.");
-      break;
-    }
-  }
+  playGame(rabbit,turtle);
 </script>
 
